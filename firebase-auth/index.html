@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Inscription / Connexion — Exemple Firebase Auth</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Créer un compte / Se connecter</h1>
+
+      <section class="forms">
+        <div class="card">
+          <h2>Inscription</h2>
+          <form id="signup-form">
+            <label>Email<br><input id="signup-email" type="email" required></label>
+            <label>Mot de passe<br><input id="signup-password" type="password" required minlength="6"></label>
+            <label>Confirmer mot de passe<br><input id="signup-password-confirm" type="password" required minlength="6"></label>
+
+            <label class="checkbox"><input id="signup-age" type="checkbox"> J'ai 18 ans ou plus</label>
+            <label class="checkbox"><input id="signup-terms" type="checkbox"> J'accepte les <a href="#">Conditions</a></label>
+
+            <button type="submit">S'inscrire</button>
+            <div id="signup-msg" class="msg"></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Connexion</h2>
+          <form id="login-form">
+            <label>Email<br><input id="login-email" type="email" required></label>
+            <label>Mot de passe<br><input id="login-password" type="password" required></label>
+            <button type="submit">Se connecter</button>
+            <div class="small"><a id="forgot-link" href="#">Mot de passe oublié ?</a></div>
+            <div id="login-msg" class="msg"></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Récupération</h2>
+          <form id="reset-form">
+            <label>Email<br><input id="reset-email" type="email" required></label>
+            <button type="submit">Envoyer email de réinitialisation</button>
+            <div id="reset-msg" class="msg"></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="profile card" id="profile" hidden>
+        <h2>Tableau de bord</h2>
+        <p id="profile-email"></p>
+        <p id="profile-verified"></p>
+        <button id="send-verif">Envoyer email de vérification</button>
+        <button id="logout">Se déconnecter</button>
+        <div id="profile-msg" class="msg"></div>
+      </section>
+
+      <footer class="foot">Exemple d'auth avec Firebase — remplace la config dans <code>firebase-auth/config.js</code>
+        <div id="config-warning" style="margin-top:.6rem;color:#ffb6b6;font-size:.9rem"></div>
+      </footer>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

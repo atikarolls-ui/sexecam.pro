@@ -1,0 +1,42 @@
+name: Smoke tests & deploy firebase-auth to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  smoke-test:
+    name: Smoke test (serve & check index)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start simple server
+        run: |
+          python3 -m http.server 8000 &
+          sleep 1
+      - name: Check /firebase-auth/index.html HTTP 200 and content
+        run: |
+          HTTP_CODE=$(curl -fsS -o /dev/null -w "%{http_code}" http://127.0.0.1:8000/firebase-auth/index.html)
+          echo "Status: $HTTP_CODE"
+          echo "Checking content"
+          CONTENT=$(curl -fsS http://127.0.0.1:8000/firebase-auth/index.html)
+          if [[ "$HTTP_CODE" != "200" ]]; then
+            echo "Index did not return 200"
+            exit 1
+          fi
+          if ! echo "$CONTENT" | grep -q "Créer un compte"; then
+            echo "index.html does not contain expected text"
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy firebase-auth to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./firebase-auth
